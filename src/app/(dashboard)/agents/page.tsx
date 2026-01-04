@@ -1,6 +1,8 @@
+import { AgentsView } from "@/modules/agents/ui/views/agents-view";
+
 const AgentsPage = () => {
     return <div>
-        agents
+        <AgentsView />
     </div>
 }
 export default AgentsPage;
