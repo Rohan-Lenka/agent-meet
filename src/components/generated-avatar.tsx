@@ -4,13 +4,13 @@ import { createAvatar } from "@dicebear/core";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 
-interface GenerateAvatarProps {
+interface GeneratedAvatarProps {
   seed: string;
   className?: string;
   variant: "botttsNeutral" | "initials";
 }
 
-export const GenerateAvatar = ({ seed, className, variant }: GenerateAvatarProps) => {
+export const GeneratedAvatar = ({ seed, className, variant }: GeneratedAvatarProps) => {
   let avatar: ReturnType<typeof createAvatar>;
 
   if (variant === "botttsNeutral") {

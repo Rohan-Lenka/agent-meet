@@ -42,7 +42,6 @@ const secondSection = [
 
 const DashboardSidebar = () => {
   const pathname = usePathname();
-    console.log(pathname);
   return (
     <Sidebar>
       <SidebarHeader className="text-sidebar-accent-foreground">
@@ -51,7 +50,7 @@ const DashboardSidebar = () => {
             src="/logo.svg"
             height={36}
             width={36}
-            alt="logo app"
+            alt="app-logo"
             style={{
               width: "auto",
               height: "auto",
