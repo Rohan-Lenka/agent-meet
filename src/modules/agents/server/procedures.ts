@@ -7,15 +7,30 @@ import {
 } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
 import { agentsInsertSchema } from "../schemas";
+import { z } from "zod";
+import { eq } from "drizzle-orm";
 
 export const AgentsRouter = createTRPCRouter({
-  // change to protectedProcedure later
-  getMany: baseProcedure.query(async () => {
+
+  // will be changed later
+  getOne: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input }) => {
+      const [existingAgent] = await db
+        .select()
+        .from(agents)
+        .where(eq(agents.id, input.id));
+      return existingAgent;
+    }),
+
+  // will be changed later
+  getMany: protectedProcedure.query(async () => {
     const data = await db.select().from(agents);
     // for testing error-state
     // throw new TRPCError({ message: "error testing", code: "BAD_GATEWAY" })
     return data;
   }),
+
   create: protectedProcedure
     .input(agentsInsertSchema)
     .mutation(async ({ input, ctx }) => {
