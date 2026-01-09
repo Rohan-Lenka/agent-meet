@@ -4,6 +4,7 @@ import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import { TRPCReactProvider } from "@/trpc/client";
 import { Toaster } from "sonner";
+import { NuqsAdapter } from "nuqs/adapters/next";
 
 const bricolageGrotesque = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -33,13 +34,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <TRPCReactProvider>
-      <html lang="en" className={`${bricolageGrotesque.variable}`}>
-        <body className={`${bricolageGrotesque.className} antialiased`}>
-          <Toaster /> 
-          {children}
-        </body>
-      </html>
-    </TRPCReactProvider>
+    <NuqsAdapter>
+      <TRPCReactProvider>
+        <html lang="en" className={`${bricolageGrotesque.variable}`}>
+          <body className={`${bricolageGrotesque.className} antialiased`}>
+            <Toaster />
+            {children}
+          </body>
+        </html>
+      </TRPCReactProvider>
+    </NuqsAdapter>
   );
 }
