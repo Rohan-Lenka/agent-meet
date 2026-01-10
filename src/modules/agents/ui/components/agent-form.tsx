@@ -39,39 +39,37 @@ export const AgentForm = ({
     trpc.agents.create.mutationOptions({
       onSuccess: async () => {
         await queryClient.invalidateQueries(
-            trpc.agents.getMany.queryOptions({}),
+          trpc.agents.getMany.queryOptions({}),
         );
         // TODO: Invalidate free tier usage
         onSuccess?.();
       },
       onError: (error) => {
         toast.error(error.message)
-
         // TODO: Check if error code is "FORBIDDEN" and redirect to "/upgrade"
       },
     })
   );
 
-//   const updateAgent = useMutation(
-//     trpc.agents.update.mutationOptions({
-//       onSuccess: async () => {
-//         await queryClient.invalidateQueries(
-//             trpc.agents.getMany.queryOptions({}),
-//         );
-//         if (initialValues?.id) {
-//             await queryClient.invalidateQueries(
-//                 trpc.agents.getOne.queryOptions({ id: initialValues.id }),
-//             );
-//         }
-//         onSuccess?.();
-//       },
-//       onError: (error) => {
-//         toast.error(error.message)
-
-//         // TODO: Check if error code is "FORBIDDEN" and redirect to "/upgrade"
-//       },
-//     })
-//   );
+  const updateAgent = useMutation(
+    trpc.agents.update.mutationOptions({
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(
+          trpc.agents.getMany.queryOptions({}),
+        );
+        if (initialValues?.id) {
+          await queryClient.invalidateQueries(
+            trpc.agents.getOne.queryOptions({ id: initialValues.id }),
+          );
+        }
+        onSuccess?.();
+      },
+      onError: (error) => {
+        toast.error(error.message)
+        // TODO: Check if error code is "FORBIDDEN" and redirect to "/upgrade"
+      },
+    })
+  );
 
   const form = useForm<z.infer<typeof agentsInsertSchema>>({
     resolver: zodResolver(agentsInsertSchema),
@@ -82,13 +80,12 @@ export const AgentForm = ({
   });
 
   const isEdit = !!initialValues?.id;
-  const isPending = createAgent.isPending 
-    // || updateAgent.isPending;
+  const isPending = createAgent.isPending
+    || updateAgent.isPending;
 
   const onSubmit = (values: z.infer<typeof agentsInsertSchema>) => {
     if (isEdit) {
-        // todo: update agent mutation
-        // updateAgent.mutate({ id: initialValues.id, ...values });
+      updateAgent.mutate({ id: initialValues.id, ...values });
     } else {
       createAgent.mutate(values);
     }
@@ -143,7 +140,14 @@ export const AgentForm = ({
             </Button>
           )}
           <Button disabled={isPending} type="submit">
-            {isEdit ? "Update Agent" : "Create Agent"}
+            {/* {isEdit ? "Update Agent" : "Create Agent"} */}
+            {isEdit
+              ? isPending
+                ? "Updating..."
+                : "Update Agent"
+              : isPending
+              ? "Creating..."
+              : "Create Agent"}
           </Button>
         </div>
       </form>

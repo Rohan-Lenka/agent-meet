@@ -15,8 +15,8 @@ import { Badge } from "@/components/ui/badge";
 import { VideoIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-// import { useConfirm } from "../../hooks/use-confirm";
-// import { UpdateAgentDialog } from "../components/update-agent-dialog";
+import { UpdateAgentDialog } from "../components/update-agent-dialog";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface Props {
   agentId: string;
@@ -32,41 +32,40 @@ export const AgentIdView = ({ agentId }: Props) => {
     trpc.agents.getOne.queryOptions({ id: agentId })
   );
 
-//   const removeAgent = useMutation(
-//     trpc.agents.remove.mutationOptions({
-//       onSuccess: async () => {
-//         await queryClient.invalidateQueries(
-//           trpc.agents.getMany.queryOptions({})
-//         );
-//         // TODO: Invalidate free tier usage
-//         router.push("/agents");
-//       },
-//       onError: (error) => {
-//         toast.error(error.message);
-//       },
-//     })
-//   );
+  const removeAgent = useMutation(
+    trpc.agents.remove.mutationOptions({
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(
+          trpc.agents.getMany.queryOptions({})
+        );
+        // TODO: Invalidate free tier usage
+        router.push("/agents");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    })
+  );
 
-//   const [RemoveConfirmation, confirmRemove] = useConfirm(
-//     "Are you sure you want to remove this agent?",
-//     "This action cannot be undone. All data related to this agent will be permanently deleted."
-//   );
+  const [RemoveConfirmation, confirmRemove] = useConfirm(
+    "Are you sure you want to remove this agent?",
+    "This action cannot be undone. All data related to this agent will be permanently deleted."
+  );
 
   const handleRemoveAgent = async () => {
-    // const ok = await confirmRemove();
-    // if (!ok) return;
-
-    // await removeAgent.mutateAsync({ id: agentId });
+    const ok = await confirmRemove();
+    if (!ok) return;
+    await removeAgent.mutateAsync({ id: agentId });
   };
 
   return (
     <>
-      {/* <RemoveConfirmation /> */}
-      {/* <UpdateAgentDialog
+      <RemoveConfirmation />
+       <UpdateAgentDialog
         open={updateAgentDialogOpen}
         onOpenChange={setUpdateAgentDialogOpen}
         initialValues={data}
-      /> */}
+      />
       <div className="flex-1 py-4 px-4 md:px-8 flex flex-col gap-y-4">
         <AgentIdViewHeader
           agentId={agentId}
