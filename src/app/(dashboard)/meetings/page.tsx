@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth";
+import { MeetingsListHeader } from "@/modules/meetings/ui/components/meetings-list-header";
 import {
   MeetingsView,
   MeetingsViewError,
@@ -29,6 +30,7 @@ const Page = async () => {
 
   return (
     <>
+    <MeetingsListHeader />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Suspense fallback={<MeetingsViewLoading />}>
           <ErrorBoundary fallback={<MeetingsViewError />}>
