@@ -9,7 +9,7 @@ import { EmptyState } from "@/components/empty-state";
 import { columns } from "../components/columns";
 import { useRouter } from "next/navigation";
 import { useAgentsFilters } from "../../hooks/use-agents-filters";
-import { DataPagination } from "../components/data-pagination";
+import { DataPagination } from "../../../../components/data-pagination";
 
 export const AgentsView = () => {
 
