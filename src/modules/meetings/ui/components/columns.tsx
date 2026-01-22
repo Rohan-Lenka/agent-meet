@@ -1,7 +1,6 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import formatDuration from "humanize-duration";
 import { format } from "date-fns";
 
 import {
@@ -13,7 +12,7 @@ import {
   LoaderIcon,
 } from "lucide-react";
 
-import { cn } from "@/lib/utils";
+import { cn, formatDuration } from "@/lib/utils";
 
 import { MeetingGetMany } from "../../types";
 import { GeneratedAvatar } from "@/components/generated-avatar";
