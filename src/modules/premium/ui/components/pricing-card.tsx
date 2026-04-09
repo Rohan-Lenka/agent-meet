@@ -38,7 +38,7 @@ const pricingCardSecondaryTextVariants = cva("text-neutral-700", {
     },
 });
 
-const pricingCardBadgeVariants = cva("text-black text-xs font-normal p-1", {
+const pricingCardBadgeVariants = cva("text-black text-xs font-normal px-1 ", {
     variants: {
         variant: {
             default: "bg-primary/20",
